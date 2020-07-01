@@ -1,0 +1,9 @@
+<div class="input">
+    <form #addtask="ngForm" name="addtask" (submit)="addtsk(addtask)" >
+      <button class="btn b1 material-icons" type="submit"></button>
+      <input type="text" maxlength="255" [(ngModel)]=
+      "input" name="taskinput" placeholder="Add a Task" #taskinput="ngModel" required>
+      <button class="btn b2" type="submit" *ngIf="taskinput.value ">Add</button>
+    </form>
+  
+  </div>

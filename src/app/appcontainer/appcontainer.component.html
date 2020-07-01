@@ -1,0 +1,31 @@
+<div class="main">
+    <div class="header">
+        <app-header></app-header>
+    </div>
+    <div class="row">
+        <div class="sidenav-col" id="col">
+            <div class="header">
+                <mat-toolbar>
+                   
+                        <mat-icon class="material-icons" (click)="menu()">menu</mat-icon>
+                    
+                    
+                </mat-toolbar>
+            </div>
+            <div class="nav-items">
+                <app-sidenav></app-sidenav>
+            </div>
+            
+        </div>
+        
+        <div class="app-container" (click)="off()">
+            <div class="temp" id="temp">
+                temp
+            </div>
+            <div class="overlay" id="overlay">
+
+            </div>
+            
+        </div>
+    </div>
+</div>

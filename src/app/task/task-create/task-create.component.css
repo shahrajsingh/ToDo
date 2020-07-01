@@ -1,0 +1,65 @@
+.input {
+    height: 52px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .input:focus-within {
+    border-bottom: 1px solid black;
+  }
+  .input form {
+    padding-top: 8px;
+  }
+  .input .b1 {
+    padding-left: 0px;
+    width: 24px;
+    margin-right: 4px;
+  }
+  .input input {
+    width: 80%;
+    outline: none;
+    border: none;
+  }
+  .input .b2 {
+    float: right;
+  }
+  .b1.material-icons::before {
+    content: "add";
+  }
+  .b1:hover.material-icons::before {
+    content: "radio_button_unchecked";
+    font-size: 20px;
+  }
+  
+  @media screen and (min-width: 300px) {
+  
+    .input input{
+      width: 125px;
+    }
+  }
+  @media screen and (min-width: 330px) {
+    .input .b2{
+  
+    }
+    .input input{
+      width: 160px;
+    }
+  }
+  @media screen and (min-width: 361px) {
+    .input input {
+      width: 180px
+    }
+  }
+  @media screen and (min-width: 400px){
+    .input input{
+      width: 210px;
+    }
+  }
+  @media screen and (min-width: 570px){
+    .input input{
+      width: 80%;
+    }
+  }
+  @media screen and (min-width: 760px){
+    .input input{
+      width: 80%;
+    }
+  }

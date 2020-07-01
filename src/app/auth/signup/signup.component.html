@@ -1,0 +1,43 @@
+<link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+<div class="spinner-container" *ngIf="isLoading">
+    <mat-spinner class="spinner"></mat-spinner>
+</div>
+<div class=" main container-fluid" id="main">
+    <div class="blur">
+        <div class="row d-flex justify-content-center">
+            <mat-card class="col col-md-4 col-xs-4 col-xl-4 col-sm-4 col-lg-4 child ">
+                <div class="heading">
+                    To Do
+                </div>
+                <p class="h2">SignUp</p>
+                <form name="signupform" #signupform="ngForm" (submit)="signup(signupform)" class="form">
+                    <mat-form-field appearance="outline" class="formfield">
+                        <mat-label>Name</mat-label>
+                        <input matInput name="name" ngModel #name="ngModel" type="text" required minlength=3
+                            placeholder="eg:- John Doe">
+                        <mat-error *ngIf="name.invalid">Enter a valid name</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="formfield">
+                        <mat-label>Email</mat-label>
+                        <input matInput name="email" type="email" required ngModel #email="ngModel"
+                            placeholder="e.g:- johndoe@gmail.com" required>
+                        <mat-error *ngIf="email.invalid">Please Enter a valid email</mat-error>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="outline" class="formfield">
+                        <mat-label>Password</mat-label>
+                        <input type="password" name="password" ngModel #password="ngModel" required matInput>
+                        <mat-error *ngIf="password.invalid">Please enter a valid password</mat-error>
+                    </mat-form-field>
+
+                    <button class="loginbutton" mat-raised-button type="submit">SignUp</button>
+                </form>
+                <hr>
+                <p class="h6">Already a User ?</p>
+                <button mat-raised-button routerLink="/">Login</button>
+            </mat-card>
+        </div>
+    </div>
+
+
+</div>

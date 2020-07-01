@@ -1,0 +1,19 @@
+.nav-list{
+    display: flex;
+    margin-left: -4px;
+}
+
+.list-item:hover .material-icons{
+    transform: scale(1.2);
+    transition: 0.2s;
+}
+mat-selection-list{
+    padding: 0px;
+    
+}
+mat-list-option{
+    height: 100%;
+}
+mat-list-option:hover{
+    background-color: white;
+}   

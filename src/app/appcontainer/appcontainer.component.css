@@ -1,0 +1,53 @@
+.main {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.header {}
+
+.row {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.sidenav-col {
+    width: 58px;
+    height: 100%;
+    overflow: hidden;
+    transition: 0.4s;
+    border-right: 1px solid #eaeaea;
+    background-color: #f4f4f4;
+    margin-left: 8px;
+}
+.nav-items{
+    
+}
+.app-container {
+    flex-grow: 1;
+    transition: 0.4s;
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.temp {
+    position: absolute;
+}
+
+.header mat-icon {
+    
+}
+
+.header mat-icon:hover {
+    background-color: white;
+}
+mat-toolbar{
+    height: 50px;
+}
