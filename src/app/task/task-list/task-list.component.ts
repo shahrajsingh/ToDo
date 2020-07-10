@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TaskService } from '../task.service';
 import { Subscription } from 'rxjs';
 import { Task } from '../task.model';
@@ -8,11 +8,12 @@ import { Task } from '../task.model';
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
   show: boolean = false;
   showcompletedheader: boolean;
   tasksub = new Subscription();
+  completedsub = new Subscription();
   constructor(private taskService: TaskService) {
 
   }
@@ -21,47 +22,46 @@ export class TaskListComponent implements OnInit {
     this.tasksub = this.taskService.taskaddedsub().subscribe((res: Task[]) => {
       this.tasks = res;
     });
-    
-    this.taskService.show().subscribe((res)=>{
-      if(res.result){
-        this.showcompletedheader = true;
-      }else{
-        this.showcompletedheader = false;
+
+    this.completedsub = this.taskService.completedListenersub().subscribe((res: boolean) => {
+      if (res) {
+        this.showcompletedheader = res;
+      } else {
+        this.showcompletedheader = res;
+        this.show = false;
       }
     });
-    
+    this.taskService.show();
+
+
+
   }
 
   markImortant(task: Task) {
-
     this.taskService.markImportant(task.userId, task._id, task.important);
-
   }
 
   completeTask(task: Task) {
-    this.showcompletedheader = true;
     this.taskService.completeTask(task.userId, task._id, task.status);
-    this.taskService.show().subscribe((res)=>{
-      if(res.result){
-        this.showcompletedheader = true;
-      }else{
-        this.showcompletedheader = false;
-      }
-    });
+
   }
 
-  showcompletedtask(){
-    if(this.show){
+  showcompletedtask() {
+    if (this.show) {
       this.show = false;
       document.getElementById("arrow").style.transform = "rotate(0deg)";
-      document.getElementById('arrow').style.padding= "14px 0px 0px 0px";
-    }else{
+      document.getElementById('arrow').style.padding = "14px 0px 0px 0px";
+    } else {
       this.show = true;
       document.getElementById("arrow").style.transform = "rotate(90deg)";
-      document.getElementById('arrow').style.padding= "0px 0px 0px 14px";
+      document.getElementById('arrow').style.padding = "0px 0px 0px 14px";
     }
   }
 
-  
+  ngOnDestroy() {
+    this.tasksub.unsubscribe();
+    this.completedsub.unsubscribe();
+  }
+
 
 }

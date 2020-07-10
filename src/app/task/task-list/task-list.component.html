@@ -23,7 +23,7 @@
                 <div class="completed-task"  *ngIf="task.status">
                     <div class="completed-task-item">
                         <mat-icon class="leftbtn" (click)='completeTask(task)'></mat-icon>
-                        <p style="font-size: 18px;">{{task.task}} </p>
+                        <p style="font-size: 18px;text-decoration: line-through;">{{task.task}} </p>
                         <mat-icon class="rightbtn" *ngIf="!task.important" (click)="markImortant(task)"></mat-icon>
                         <mat-icon class="rightbtn-imp" *ngIf="task.important" (click)="markImortant(task)"></mat-icon>
                     </div>

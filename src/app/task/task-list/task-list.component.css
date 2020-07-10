@@ -104,7 +104,7 @@
     width: 28px;
 }
 .completed-header mat-icon{
-    transition: 0.3s;
+    transition: 0.1s;
     
     padding-top: 12px;
 }

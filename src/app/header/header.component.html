@@ -18,6 +18,9 @@
         </form>
     </div>
     <div class="rest">
-        <button class="material-icons">account_box</button>
+        <button class="material-icons" [matMenuTriggerFor]="menu">account_box</button>
+        <mat-menu #menu="matMenu">
+            <button class="menu-btn" mat-stroked-button (click)="logout()">LogOut</button>
+        </mat-menu>
     </div>
 </mat-toolbar>

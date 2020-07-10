@@ -36,6 +36,7 @@ export class AuthService {
   autoAuthUser() {
     console.log('autoauth');
     const authInformation = this.getAuthData();
+    console.log(authInformation);
     if (!authInformation) {
       return;
     }

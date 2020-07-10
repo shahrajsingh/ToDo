@@ -10,7 +10,7 @@ exports.createTask = (req, res, next) => {
     date: req.body.date,
     userId: req.body.userId
   });
-  console.log(task);
+
   task.save().then(result => {
     res.status(201).json({
       message: 'save success',
@@ -27,10 +27,10 @@ exports.createTask = (req, res, next) => {
 }
 
 exports.getTasks = (req, res, next) => {
-  console.log(req.params.UserId);
+
   Task.find({ userId: req.params.UserId }).then((result) => {
     if (result) {
-      console.log(result);
+  
       res.status(201).json({
         message: "tasks found",
         task: result
@@ -104,7 +104,7 @@ exports.getmydaytasks = (req, res, next) => {
 
 exports.getCompletedTask = (req, res, next) => {
   Task.findOne({ status: true, userId: req.params.UserId }).then(result => {
-    console.log(result);
+  
     res.status(201).json({
       result: result
     });
@@ -118,12 +118,12 @@ exports.getCompletedTask = (req, res, next) => {
 
 
 exports.completeTask = (req, res, next) => {
-  Task.findByIdAndUpdate({ userId: req.params.UserId, _id: req.body._id }, { status: true }).then(result => {
-    console.log(result);
-    res.status(201).json({
-      message: "task completed",
-      result: result
-    });
+  Task.findByIdAndUpdate({ userId: req.params.UserId, _id: req.body._id }, { status: true }).then(result => { 
+    Task.findOne({userId:req.params.UserId,status: true}).then((response)=>{
+      res.status(201).json({
+        result: response
+      });
+    });  
   }).catch(result => {
     res.status(500).json({
       message: "internal server error"
@@ -133,11 +133,11 @@ exports.completeTask = (req, res, next) => {
 
 exports.uncompleteTask = (req, res, next) => {
   Task.findByIdAndUpdate({ userId: req.params.UserId, _id: req.body._id }, { status: false }).then(result => {
-    console.log(result);
-    res.status(201).json({
-      message: "task mark uncompleted",
-      result: result
-    });
+    Task.findOne({userId:req.params.UserId,status: true}).then((response)=>{
+      res.status(201).json({
+        result: response
+      });
+    }); 
   }).catch(result => {
     res.status(500).json({
       message: "internal server error"

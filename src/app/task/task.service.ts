@@ -3,6 +3,7 @@ import { Task } from './task.model';
 import { Subject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformServer } from '@angular/common';
 
 const BACKEND_URL = environment.apiUrl + "/tasks/";
 @Injectable({
@@ -10,17 +11,20 @@ const BACKEND_URL = environment.apiUrl + "/tasks/";
 })
 export class TaskService {
   private taskaddedListener = new Subject();
+  private completedListener = new Subject();
   tab: String;
   private task: Task[] = [];
   userId: string;
   taskaddedsub() {
     return this.taskaddedListener.asObservable();
   }
-
+  completedListenersub(){
+    return this.completedListener.asObservable();
+  }
   gettask(userId: string) {
     this.userId = userId;
     this.http.get<{ message: string, task: Task[] }>(BACKEND_URL + userId).subscribe((result) => {
-      console.log(result);
+      
       this.task = result.task;
       this.taskaddedListener.next([...this.task]);
     });
@@ -43,7 +47,7 @@ export class TaskService {
   }
 
   addtask(tsk: Task) {
-    console.log(tsk);
+   
     this.http.post<{ message: string }>(BACKEND_URL, tsk).subscribe((res) => {
       this.task.unshift(tsk);
       this.taskaddedListener.next([...this.task]);
@@ -56,13 +60,22 @@ export class TaskService {
       status: status
     }
     if (!status) {
-      this.http.put<{ message: string }>(BACKEND_URL + 'completetask/' + UserId, task).subscribe((res) => {
-        console.log(res.message);
+      this.http.put<{ message: string,result }>(BACKEND_URL + 'completetask/' + UserId, task).subscribe((res) => {
+        console.log(res.result);
+        if(res.result){
+          this.completedListener.next(true);
+        }else{
+          this.completedListener.next(false);
+        }
       });
 
     } else {
-      this.http.put<{ message: string }>(BACKEND_URL + 'uncompletetask/' + UserId, task).subscribe((res) => {
-        console.log(res.message)
+      this.http.put<{ message: string , result}>(BACKEND_URL + 'uncompletetask/' + UserId, task).subscribe((res) => {
+        if(res.result){
+          this.completedListener.next(true);
+        }else{
+          this.completedListener.next(false);
+        }
       });
     }
     const len = this.task.length;
@@ -110,8 +123,14 @@ export class TaskService {
     return this.tab;
   }
 
-  show(): Observable<{result: any}> {
-    return this.http.get<{ result }>(BACKEND_URL + 'ctask/' + this.userId);
+  show(){
+    this.http.get<{ result }>(BACKEND_URL + 'ctask/' + this.userId).subscribe((res)=>{
+      if(res.result){
+        this.completedListener.next(true);
+      }else{
+        this.completedListener.next(false);
+      }
+    });
   }
   constructor(private http: HttpClient) { }
 }
