@@ -4,34 +4,48 @@
     flex-flow: column;
 }
 
-.header {}
+.header {
 
-.row {
+}
+.app-container{
     display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+.row {
+
+    display: flex;
+
     flex-grow: 1;
     width: 100%;
+    margin: 52px 0px 0px 0px;
+
 }
 
 .sidenav-col {
+    position: fixed;
     width: 58px;
     height: 100%;
     overflow: hidden;
-    transition: 0.4s;
+    transition: 0.2s;
     border-right: 1px solid #eaeaea;
     background-color: #f4f4f4;
-    margin-left: 8px;
-}
-.nav-items{
+    float: left;
     
 }
+
+.nav-items {}
+
 .app-container {
-    flex-grow: 1;
-    transition: 0.4s;
+    width: calc(100% - 60px);
+    transition: 0.2s;
+    margin-left: 58px;
 }
 
 .overlay {
     height: 100%;
-    width: 100%;
+    width: calc(100% - 150px);
+    margin: 0px 0px 0px 92px;
     display: none;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.5);
@@ -41,13 +55,74 @@
     position: absolute;
 }
 
-.header mat-icon {
-    
-}
+.header mat-icon {}
 
 .header mat-icon:hover {
     background-color: white;
 }
-mat-toolbar{
+
+mat-toolbar {
     height: 50px;
+    cursor: pointer;
+}
+
+.nav-list {
+    display: flex;
+    margin-left: -4px;
+}
+
+.list-item:hover .material-icons {
+    transform: scale(1.2);
+    transition: 0.2s;
+}
+
+mat-selection-list {
+    padding: 0px;
+}
+
+mat-list-option {
+    height: 100%;
+}
+
+mat-list-option:hover {
+    background-color: white;
+}
+
+.task-header {
+    padding: 8px 8px 0px 16px;
+}
+h1{
+    margin: 0px;
+}
+.heading p{
+    margin: 0px;
+}
+.task-create {
+    padding: 20px 16px 0px 16px;
+}
+
+.task-list {
+    
+    margin-left: 16px;
+    margin-right: 16px;
+    display: flex;
+
+    flex-grow: 1;
+    background: linear-gradient(
+      180deg,
+      white,
+      white 52px,
+      #e5e5e5 52px,
+      #e5e5e5 52px
+    );
+    background-size: 100% 53px;
+    box-shadow: inset 0 1px 0 0 #e5e5e5;
+}
+app-task-list{
+    flex-grow: 1;
+
+}
+app-header{
+    position: fixed;
+    width: 100%;
 }

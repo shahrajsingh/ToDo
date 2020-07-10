@@ -6,26 +6,72 @@
         <div class="sidenav-col" id="col">
             <div class="header">
                 <mat-toolbar>
-                   
-                        <mat-icon class="material-icons" (click)="menu()">menu</mat-icon>
-                    
-                    
+                    <mat-icon class="material-icons" (click)="menu()">menu</mat-icon>
                 </mat-toolbar>
             </div>
             <div class="nav-items">
-                <app-sidenav></app-sidenav>
+                <div class="nav-list">
+                    <mat-selection-list [multiple]="false">
+                        <div class="list-item">
+                            <mat-list-option  (click)="settab(0)">
+                                <mat-icon matListIcon class="material-icons">wb_sunny</mat-icon>
+                                <p matLine> My Day </p>
+
+                            </mat-list-option>
+                        </div>
+
+                        <div class="list-item">
+                            <mat-list-option (click)="settab(1)">
+                                <mat-icon matListIcon class="material-icons">star_outline</mat-icon>
+                                <p matLine>Important</p>
+
+                            </mat-list-option>
+                        </div>
+                        <div class="list-item">
+                            <mat-list-option [selected]="true" (click)="settab(2)">
+                                <mat-icon matListIcon class="material-icons">home</mat-icon>
+                                <p matLine> Tasks</p>
+
+                            </mat-list-option>
+                        </div>
+
+                    </mat-selection-list>
+                </div>
             </div>
-            
+
         </div>
-        
-        <div class="app-container" (click)="off()">
-            <div class="temp" id="temp">
-                temp
+
+        <div class="app-container" id="app-container">
+            <div class="task-header" id="task-header">
+                <div class="heading" *ngIf="tab === tabs[0]">
+                    <h1>{{tab}}<button class="btn " matTooltip="List options" matTooltipPosition="below">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button></h1>
+
+                    <p>{{day}}, {{month}} {{date}}</p>
+                </div>
+                <div class="heading" *ngIf="tab === tabs[1]" style="color: blue;">
+                    <h1>{{tab}}<button class="btn " matTooltip="List options" matTooltipPosition="below">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button></h1>
+                </div>
+                <div class="heading" *ngIf="tab === tabs[2]">
+                    <h1>{{tab}}<button class="btn " matTooltip="List options" matTooltipPosition="below">
+                            <mat-icon>more_horiz</mat-icon>
+                        </button></h1>
+                </div>
+            </div>
+            <div class="task-create">
+                <app-task-create></app-task-create>
+            </div>
+            <div class="task-list">
+
+                <app-task-list></app-task-list>
             </div>
             <div class="overlay" id="overlay">
 
             </div>
-            
+
         </div>
     </div>
 </div>

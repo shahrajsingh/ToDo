@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskService } from '../task/task.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-appcontainer',
@@ -8,16 +10,35 @@ import { Component, OnInit } from '@angular/core';
 export class AppcontainerComponent implements OnInit {
 
   isExpanded: boolean = false;
-  constructor() { }
-
-  ngOnInit(): void {
+  tabs: String[] = ['My Day', 'Important', 'Tasks'];
+  days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  tab: String = this.tabs[0];
+  day: String = "";
+  month: String = "";
+  date: Number;
+  d: Date;
+  UserId: string;
+  constructor(private taskservice:TaskService,private authService: AuthService) {
+    this.d = new Date();
+    this.day += this.days[this.d.getDay()];
+    this.month += this.months[this.d.getMonth()];
+    this.date = this.d.getDate();
+    this.UserId = this.authService.getUserId();
   }
 
-  menu(){
-    if(this.isExpanded){
+  ngOnInit(): void {
+    this.taskservice.gettask(this.UserId);
+  }
+
+  menu() {
+
+    if (this.isExpanded) {
+
       this.off();
       this.isExpanded = false;
-    }else{
+    } else {
+
       this.on();
       this.isExpanded = true;
     }
@@ -26,20 +47,34 @@ export class AppcontainerComponent implements OnInit {
     if (window.innerWidth < 520) {
       document.getElementById("col").style.width = "150px";
       document.getElementById("overlay").style.display = "block";
-      document.getElementById("temp").style.display = "none";
+
+
     } else {
       document.getElementById("col").style.width = "150px";
+      document.getElementById("app-container").style.margin = "0px 0px 0px 150px";
     }
 
   }
   off() {
-    if (window.innerWidth < 520) {
-      document.getElementById("col").style.width = "58px";
-      document.getElementById("overlay").style.display = "none";
-      document.getElementById("temp").style.display = "initial";
-    } else {
-      document.getElementById("col").style.width = "58px";
-    }
 
+
+
+    document.getElementById("col").style.width = "58px";
+    document.getElementById("app-container").style.margin = "0px 0px 0px 58px";
+    document.getElementById("overlay").style.display = "none";
+
+
+
+  }
+  settab(n) {
+    this.tab = this.tabs[n];
+    this.taskservice.settab(this.tab);
+    if(n == 0){
+      this.taskservice.getMyDayTask(this.UserId);
+    }else if(n == 1){
+      this.taskservice.getImpTask(this.UserId);
+    }else{
+      this.taskservice.gettask(this.UserId);
+    }
   }
 }

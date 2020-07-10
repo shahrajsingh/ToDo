@@ -1,0 +1,113 @@
+.tasks {
+    width: 100%;
+}
+
+.pending-list {
+    width: 100%;
+}
+
+.completed-list {
+    width: 100%;
+}
+
+.pending-task {
+    min-height: 52px;
+    width: 100%;
+    display: flex;
+    margin-top: 1px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.completed-task {
+    min-height: 52px;
+    width: 100%;
+    display: flex;
+    margin-top: 1px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.pending-task-item {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-color: white;
+}
+
+.completed-task-item {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-color: white;
+}
+
+.pending-task p {
+    width: 99%;
+    overflow: hidden;
+    padding-right: 1rem;
+    margin: 0px 0px 0px 0px;
+    line-height: 52px;
+}
+
+.completed-task p {
+    width: 99%;
+    overflow: hidden;
+    padding-right: 1rem;
+    margin: 0px 0px 0px 0px;
+    line-height: 52px;
+}
+
+.leftbtn {
+    padding-top: 12px;
+    width: 32px;
+}
+
+.pending-task .leftbtn::before {
+    content: "panorama_fish_eye";
+}
+
+.completed-task .leftbtn::before {
+    content: "check_circle_outline";
+}
+
+.pending-task .leftbtn:hover::before {
+    content: "check_circle_outline";
+}
+
+.rightbtn {
+    padding-top: 12px;
+    width: 32px;
+}
+
+.rightbtn::before {
+    content: "star_outline";
+}
+
+.rightbtn:hover {
+    font-weight: 600;
+}
+
+.rightbtn-imp {
+    padding-top: 12px;
+    width: 32px;
+}
+
+.rightbtn-imp::before {
+    content: "star";
+}
+.completed-header{
+    width: 100%;
+    display: flex;
+    height: 53px;
+    
+}
+.icon-holder{
+    width: 28px;
+}
+.completed-header mat-icon{
+    transition: 0.3s;
+    
+    padding-top: 12px;
+}
+.completed-header h2{
+    line-height: 52px;
+}

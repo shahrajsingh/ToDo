@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TaskService } from '../task.service';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-task-create',
@@ -10,14 +11,14 @@ import { TaskService } from '../task.service';
 })
 export class TaskCreateComponent implements OnInit {
 
-  input: String;
+  input: string;
   d
   days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  day: String = "";
-  month: String = "";
-  date: String = "";
-  UserId: String;
+  day: string = "";
+  month: string = "";
+  date: string = "";
+  UserId: string;
   constructor(private taskService: TaskService, private Authservice: AuthService) {
     this.d = new Date();
     this.day += this.days[this.d.getDay()];
@@ -32,15 +33,18 @@ export class TaskCreateComponent implements OnInit {
     if (form.invalid) {
       return;
     } else {
-      const tsk = {
-        userId: this.UserId,
+      const tsk:Task = {
+        _id: null,
         status: false,
-        task_name: form.value.taskinput,
+        task: form.value.taskinput,
         important: false,
         timeStamp: this.d.getHours() + ":" + this.d.getMinutes() + ":" + this.d.getSeconds(),
         date: this.day + ", " + this.date + " " + this.month + " " + this.d.getFullYear(),
-        index: null
+        userId: this.UserId
       };
+      if(this.taskService.gettab() ==='Important'){
+        tsk.important = true;
+      }
       console.log(tsk);
       this.taskService.addtask(tsk);
     }

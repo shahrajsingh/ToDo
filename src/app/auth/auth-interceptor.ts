@@ -12,6 +12,7 @@ import {
     constructor(private authService: AuthService) {}
   
     intercept(req: HttpRequest<any>, next: HttpHandler) {
+      console.log("request intercepted");
       const authToken = this.authService.getToken();
       const authRequest = req.clone({
         headers: req.headers.set("Authorization", "Bearer " + authToken)

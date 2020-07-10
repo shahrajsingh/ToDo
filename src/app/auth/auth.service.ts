@@ -34,6 +34,7 @@ export class AuthService {
   }
 
   autoAuthUser() {
+    console.log('autoauth');
     const authInformation = this.getAuthData();
     if (!authInformation) {
       return;
@@ -51,8 +52,9 @@ export class AuthService {
 
   signup(name: string, email: string, pass: string) {
     const authData = { name: name, email: email, password: pass };
-    this.http.post(BACKEND_URL + "", authData).subscribe(
-      () => {
+    this.http.post<{ message: string }>(BACKEND_URL + "", authData).subscribe(
+      (res) => {
+        console.log(res.message);
         this.router.navigate(["/"]);
       },
       error => {
@@ -64,7 +66,7 @@ export class AuthService {
 
   login(email: string, pass: string) {
     const authData: AuthData = { email: email, password: pass };
-    this.http.post<{ token: string; expiresIn: number; userId: string }>(
+    this.http.post<{ token: string; expiresIn: number; userId: string; message: string }>(
       BACKEND_URL + "/login", authData
     )
       .subscribe(
@@ -89,6 +91,7 @@ export class AuthService {
           this.authStatusListener.next(false);
         }
       );
+
   }
 
   logout() {

@@ -20,8 +20,16 @@ export class LoginComponent implements OnInit {
     if (form.invalid) {
       return;
     } else {
-
-      this.authService.login(form.value.email, form.value.password);
+      console.log('firing login request');
+      const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if(form.value.email.match(mailformat)){
+        this.authService.login(form.value.email, form.value.password);
+      }else{
+        alert('invalid mail');
+        form.reset();
+        return;
+      }
+      
     }
   }
 
