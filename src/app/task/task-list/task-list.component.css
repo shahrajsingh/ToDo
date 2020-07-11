@@ -56,6 +56,7 @@
     line-height: 52px;
 }
 
+
 .leftbtn {
     padding-top: 12px;
     width: 32px;
@@ -67,6 +68,7 @@
 
 .completed-task .leftbtn::before {
     content: "check_circle_outline";
+    cursor: pointer;
 }
 
 .pending-task .leftbtn:hover::before {
@@ -102,12 +104,40 @@
 }
 .icon-holder{
     width: 28px;
+    cursor: pointer;
 }
 .completed-header mat-icon{
     transition: 0.1s;
-    
+    cursor: pointer;
     padding-top: 12px;
 }
 .completed-header h2{
     line-height: 52px;
+}
+
+.pending-task-item:hover{
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+.completed-task-item:hover{
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+::ng-deep.mat-menu-panel {
+    max-width: none !important;
+  }
+.delete{
+    font-size: 16px;
+    color: black;
+    
+}
+.del-ico{
+    color: black;
+}
+.delete:hover{
+    color: white;
+    background-color: red;
+}
+.delete:hover .del-ico{
+    color: white;
 }

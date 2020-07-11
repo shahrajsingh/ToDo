@@ -5,11 +5,11 @@
         To Do
     </div>
     <div class="search">
-        <form class="searchform">
+        <form class="searchform" #searchform="ngForm" name='searchform' (submit)='onSearch(searchform)'>
             <div class="input-box-container">
 
-                <div class="input-box">
-                    <input>
+                <div class="input-box" >
+                    <input name='search' ngModel #search="ngModel">
                 </div>
                 <div class="btndiv">
                     <button type="submit" class="material-icons">search</button>
@@ -19,8 +19,9 @@
     </div>
     <div class="rest">
         <button class="material-icons" [matMenuTriggerFor]="menu">account_box</button>
-        <mat-menu #menu="matMenu">
-            <button class="menu-btn" mat-stroked-button (click)="logout()">LogOut</button>
+        <mat-menu #menu="matMenu" class="materialmenu">
+            <button class="account-btn" mat-menu-item (click)="account()">Account</button>
+            <button class="menu-btn"  mat-menu-item (click)="logout()">LogOut</button>
         </mat-menu>
     </div>
 </mat-toolbar>

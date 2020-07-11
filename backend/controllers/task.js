@@ -12,13 +12,15 @@ exports.createTask = (req, res, next) => {
   });
 
   task.save().then(result => {
+   
+  
     res.status(201).json({
       message: 'save success',
-      data: result
+      result: result
     });
 
   }).catch(err => {
-    console.log('showing error \n' + err);
+
     res.status(500).json({
       message: 'server error',
       error: err
@@ -30,7 +32,7 @@ exports.getTasks = (req, res, next) => {
 
   Task.find({ userId: req.params.UserId }).then((result) => {
     if (result) {
-  
+
       res.status(201).json({
         message: "tasks found",
         task: result
@@ -104,7 +106,7 @@ exports.getmydaytasks = (req, res, next) => {
 
 exports.getCompletedTask = (req, res, next) => {
   Task.findOne({ status: true, userId: req.params.UserId }).then(result => {
-  
+
     res.status(201).json({
       result: result
     });
@@ -118,12 +120,12 @@ exports.getCompletedTask = (req, res, next) => {
 
 
 exports.completeTask = (req, res, next) => {
-  Task.findByIdAndUpdate({ userId: req.params.UserId, _id: req.body._id }, { status: true }).then(result => { 
-    Task.findOne({userId:req.params.UserId,status: true}).then((response)=>{
+  Task.findByIdAndUpdate({ userId: req.params.UserId, _id: req.body._id }, { status: true }).then(result => {
+    Task.findOne({ userId: req.params.UserId, status: true }).then((response) => {
       res.status(201).json({
         result: response
       });
-    });  
+    });
   }).catch(result => {
     res.status(500).json({
       message: "internal server error"
@@ -133,11 +135,11 @@ exports.completeTask = (req, res, next) => {
 
 exports.uncompleteTask = (req, res, next) => {
   Task.findByIdAndUpdate({ userId: req.params.UserId, _id: req.body._id }, { status: false }).then(result => {
-    Task.findOne({userId:req.params.UserId,status: true}).then((response)=>{
+    Task.findOne({ userId: req.params.UserId, status: true }).then((response) => {
       res.status(201).json({
         result: response
       });
-    }); 
+    });
   }).catch(result => {
     res.status(500).json({
       message: "internal server error"
@@ -168,6 +170,45 @@ exports.markImportant = (req, res, next) => {
     res.status(500).json({
       message: 'error occured!',
       error: error
+    });
+  });
+}
+
+exports.searchTask = (req, res, next) => {
+  const query = req.params.query;
+  Task.find({ $text: { $search: query }, userId: req.params.user }).then((result) => {
+
+    res.status(201).json({
+      message: 'result!',
+      result: result
+    });
+  }).catch((error) => {
+
+    res.status(201).json({
+      message: 'error occured',
+      result: error
+    })
+  });
+}
+
+exports.deleteTask = (req, res, next) => {
+
+  Task.deleteOne({ _id: req.params.id, userId: req.params.userid }).then((result) => {
+   
+    if (result.deletedCount != 0) {
+      res.status(200).json({
+        message: 'deleted',
+        result: result
+      });
+    } else {
+      res.status().json({
+        message: 'delete unsuccessful'
+      });
+    }
+  }).catch(error => {
+    res.status(500).json({
+      message: 'error occured',
+      result: error
     });
   });
 }

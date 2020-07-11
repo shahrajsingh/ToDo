@@ -14,8 +14,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
   showcompletedheader: boolean;
   tasksub = new Subscription();
   completedsub = new Subscription();
+  audio
   constructor(private taskService: TaskService) {
-
+    this.audio = new Audio();
+    this.audio.src = "../Completed.wav";
+    this.audio.load();
   }
 
   ngOnInit(): void {
@@ -42,6 +45,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   completeTask(task: Task) {
+    if(!task.status){
+      this.audio.play();
+    }
     this.taskService.completeTask(task.userId, task._id, task.status);
 
   }
@@ -58,6 +64,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
   }
 
+  delete(task){
+    this.taskService.delete(task);
+  }
   ngOnDestroy() {
     this.tasksub.unsubscribe();
     this.completedsub.unsubscribe();

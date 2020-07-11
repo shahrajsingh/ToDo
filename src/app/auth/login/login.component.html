@@ -26,10 +26,21 @@
                     </mat-form-field>
 
                     <button class="loginbutton" mat-raised-button type="submit">Login</button>
+
                 </form>
+
+
                 <hr>
-                <p class="h6">New User ?</p>
-                <button mat-raised-button routerLink="/signup">SignUp</button>
+                <div>
+                    <button style="width: 140px;" mat-raised-button [routerLink]="['/resetpass',temp]">Forgot Password?</button>
+                    
+                </div>
+                <br>
+                <div>
+                    <p class="h6">New User ?</p>
+                    <button mat-raised-button routerLink="/signup">SignUp</button>
+                </div>
+
             </mat-card>
         </div>
     </div>

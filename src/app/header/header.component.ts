@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {AuthService } from '../auth/auth.service';
+import { TaskService } from '../task/task.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,7 @@ import {AuthService } from '../auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isAuth: Boolean;
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,private taskService:TaskService) { }
 
   ngOnInit(): void {
     this.isAuth = true;
@@ -19,9 +20,13 @@ export class HeaderComponent implements OnInit {
     if(form.invalid){
       return;
     }
-    alert(form.value.search);
+    this.taskService.search(form.value.search);
+    form.reset();
   }
   logout(){
     this.authService.logout();
+  }
+  account(){
+    this.authService.account();
   }
 }

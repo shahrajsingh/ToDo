@@ -45,7 +45,7 @@ export class TaskCreateComponent implements OnInit {
       if(this.taskService.gettab() ==='Important'){
         tsk.important = true;
       }
-      console.log(tsk);
+    
       this.taskService.addtask(tsk);
     }
     form.reset();

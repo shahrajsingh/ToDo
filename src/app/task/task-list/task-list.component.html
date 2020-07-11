@@ -4,7 +4,13 @@
             <div class="pending-task" *ngIf="!task.status">
                 <div class="pending-task-item">
                     <mat-icon class="leftbtn" (click)='completeTask(task)'></mat-icon>
-                    <p style="font-size: 18px;">{{task.task}} </p>
+                    <p [matMenuTriggerFor]="menu" class="pra" style="font-size: 18px;">{{task.task}} </p>
+                    <mat-menu #menu="matMenu" class="matmenu">
+                        <p mat-menu-item style="font-size: 16px;">Date Created: {{task.date}},{{task.timeStamp}}</p>
+                        <button mat-menu-item class="delete" (click)="delete(task)">Delete Task <mat-icon
+                                class="del-ico">delete_forever
+                            </mat-icon></button>
+                    </mat-menu>
                     <mat-icon class="rightbtn" *ngIf="!task.important" (click)="markImortant(task)"></mat-icon>
                     <mat-icon class="rightbtn-imp" *ngIf="task.important" (click)="markImortant(task)"></mat-icon>
                 </div>
@@ -15,15 +21,19 @@
             <div class='icon-holder'>
                 <mat-icon id="arrow" (click)='showcompletedtask()'>keyboard_arrow_right</mat-icon>
             </div>
-            
+
             <h2>Completed</h2>
         </div>
         <div class="completed-list" *ngIf="show">
-            <div class="completed-wrapper"*ngFor="let task of tasks">
-                <div class="completed-task"  *ngIf="task.status">
+            <div class="completed-wrapper" *ngFor="let task of tasks">
+                <div class="completed-task" *ngIf="task.status">
                     <div class="completed-task-item">
                         <mat-icon class="leftbtn" (click)='completeTask(task)'></mat-icon>
-                        <p style="font-size: 18px;text-decoration: line-through;">{{task.task}} </p>
+                        <p class="pra" [matMenuTriggerFor]="menu2"
+                            style="font-size: 18px;text-decoration: line-through;">{{task.task}} </p>
+                        <mat-menu #menu2="matMenu">
+                            <p mat-menu-item style="font-size: 16px;">Date Created: {{task.date}},{{task.timeStamp}}</p>
+                        </mat-menu>
                         <mat-icon class="rightbtn" *ngIf="!task.important" (click)="markImortant(task)"></mat-icon>
                         <mat-icon class="rightbtn-imp" *ngIf="task.important" (click)="markImortant(task)"></mat-icon>
                     </div>

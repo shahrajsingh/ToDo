@@ -27,7 +27,9 @@ exports.createUser = (req, res, next) => {
     const user = new User({
       name: req.body.name,
       email: req.body.email,
-      password: hash
+      password: hash,
+      question: req.body.question,
+      answer: req.body.answer
     });
     user
       .save()
@@ -83,6 +85,34 @@ exports.userLogin = (req, res, next) => {
     res.status(500).json({
       message: 'Invalid authentication credentials!',
       error: error
+    });
+  });
+}
+
+exports.getUser = (req, res, next) => {
+  User.findOne({ _id: req.params.userId }).then((result) => {
+
+    res.status(200).json({
+      name: result.name,
+      email: result.email
+    });
+  }).catch((error) => {
+    res.status(500).json({
+      name: 'error occured',
+      error: error
+    });
+  });
+}
+exports.updateUser = (req, res, next) => {
+  User.updateOne({_id: req.params.userId},{name: req.body.name,email: req.body.email}).then((result)=>{
+    res.status(200).json({
+      message: 'updated',
+      result: result.nModified
+    });
+  }).catch((error)=>{
+    res.status(500).json({
+      message: 'error occured',
+      result: error
     });
   });
 }

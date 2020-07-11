@@ -18,13 +18,13 @@ export class TaskService {
   taskaddedsub() {
     return this.taskaddedListener.asObservable();
   }
-  completedListenersub(){
+  completedListenersub() {
     return this.completedListener.asObservable();
   }
   gettask(userId: string) {
     this.userId = userId;
     this.http.get<{ message: string, task: Task[] }>(BACKEND_URL + userId).subscribe((result) => {
-      
+
       this.task = result.task;
       this.taskaddedListener.next([...this.task]);
     });
@@ -47,8 +47,10 @@ export class TaskService {
   }
 
   addtask(tsk: Task) {
+
+    this.http.post<{ message: string,result:Task }>(BACKEND_URL, tsk).subscribe((res) => {
    
-    this.http.post<{ message: string }>(BACKEND_URL, tsk).subscribe((res) => {
+      tsk._id = res.result._id;
       this.task.unshift(tsk);
       this.taskaddedListener.next([...this.task]);
     });
@@ -60,20 +62,20 @@ export class TaskService {
       status: status
     }
     if (!status) {
-      this.http.put<{ message: string,result }>(BACKEND_URL + 'completetask/' + UserId, task).subscribe((res) => {
-        console.log(res.result);
-        if(res.result){
+      this.http.put<{ message: string, result }>(BACKEND_URL + 'completetask/' + UserId, task).subscribe((res) => {
+        
+        if (res.result) {
           this.completedListener.next(true);
-        }else{
+        } else {
           this.completedListener.next(false);
         }
       });
 
     } else {
-      this.http.put<{ message: string , result}>(BACKEND_URL + 'uncompletetask/' + UserId, task).subscribe((res) => {
-        if(res.result){
+      this.http.put<{ message: string, result }>(BACKEND_URL + 'uncompletetask/' + UserId, task).subscribe((res) => {
+        if (res.result) {
           this.completedListener.next(true);
-        }else{
+        } else {
           this.completedListener.next(false);
         }
       });
@@ -123,14 +125,46 @@ export class TaskService {
     return this.tab;
   }
 
-  show(){
-    this.http.get<{ result }>(BACKEND_URL + 'ctask/' + this.userId).subscribe((res)=>{
-      if(res.result){
+  show() {
+    this.http.get<{ result }>(BACKEND_URL + 'ctask/' + this.userId).subscribe((res) => {
+      if (res.result) {
         this.completedListener.next(true);
-      }else{
+      } else {
         this.completedListener.next(false);
       }
     });
+  }
+
+  search(query: string) {
+    const params={
+      userId: this.userId,
+      search: query
+    }
+    this.http.get<{message: string,result:Task[]}>(BACKEND_URL + 'search/'+query+'/'+this.userId).subscribe((res) => {
+      if(res.result.length > 0){
+        this.task = res.result;
+        this.taskaddedListener.next([...this.task]);
+      }else{
+        alert('No results found');
+      }
+    });
+  }
+
+  delete(task:Task){
+      this.http.delete<{message: string}>(BACKEND_URL+'/'+task._id+'/'+task.userId).subscribe((res)=>{
+        if(res.message === 'deleted'){
+          const len = this.task.length;
+          for(let i=0;i<len;i++){
+            if(this.task[i]._id == task._id){
+              this.task.splice(i,1);
+              break;
+            }
+          }
+          this.taskaddedListener.next([...this.task]);
+        }else{
+          alert('task not deleted');
+        }
+      });
   }
   constructor(private http: HttpClient) { }
 }

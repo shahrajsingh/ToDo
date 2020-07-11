@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthData } from './auth-data.model';
@@ -9,6 +9,7 @@ const BACKEND_URL = environment.apiUrl + "/users/";
   providedIn: 'root'
 })
 export class AuthService {
+
 
   private isAuthenticated: boolean = false;
   private authStatusListener = new Subject<boolean>();
@@ -33,10 +34,13 @@ export class AuthService {
     return this.token;
   }
 
+  getuserdata(): Observable<{ name: string, email: string }> {
+    return this.http.get<{ name: string, email: string }>(BACKEND_URL + this.userId);
+  }
   autoAuthUser() {
-    console.log('autoauth');
+
     const authInformation = this.getAuthData();
-    console.log(authInformation);
+
     if (!authInformation) {
       return;
     }
@@ -51,18 +55,19 @@ export class AuthService {
     }
   }
 
-  signup(name: string, email: string, pass: string) {
-    const authData = { name: name, email: email, password: pass };
+  signup(name: string, email: string, pass: string, ques: string, ans: string) {
+    console.log(ques,ans);
+    const authData = { name: name, email: email, password: pass,question: ques,answer: ans };
     this.http.post<{ message: string }>(BACKEND_URL + "", authData).subscribe(
       (res) => {
-        console.log(res.message);
+        console.log(res);
         this.router.navigate(["/"]);
       },
       error => {
         this.authStatusListener.next(false);
       }
     );
-
+  
   }
 
   login(email: string, pass: string) {
@@ -92,9 +97,25 @@ export class AuthService {
           this.authStatusListener.next(false);
         }
       );
-
   }
 
+  updateinfo(name: string, email: string) {
+    const body = {
+      name: name,
+      email: email
+    }
+    this.http.put<{ message: string, result: number }>(BACKEND_URL + this.userId, body).subscribe((res) => {
+      if (res.result != 0) {
+        this.router.navigate(['/app']);
+      } else if (res.result == 0) {
+        alert('no data has been updated!');
+      } else {
+        alert('error occured! try after some time');
+      }
+    });
+  }
+
+  
   logout() {
     this.token = null;
     this.isAuthenticated = false;
@@ -138,5 +159,7 @@ export class AuthService {
       userId: userId
     };
   }
-
+  account() {
+    this.router.navigate(['/account', this.userId]);
+  }
 }

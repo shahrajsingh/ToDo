@@ -21,5 +21,5 @@ const taskSchema = mongoose.Schema({
     type: String, required: true
   }
 });
-
+taskSchema.index({task: 'text'});
 module.exports = mongoose.model("Task", taskSchema);

@@ -13,28 +13,54 @@
                 <form name="signupform" #signupform="ngForm" (submit)="signup(signupform)" class="form">
                     <mat-form-field appearance="outline" class="formfield">
                         <mat-label>Name</mat-label>
-                        <input matInput name="name" ngModel #name="ngModel" type="text" required minlength=3
-                            placeholder="eg:- John Doe">
-                        <mat-error *ngIf="name.invalid">Enter a valid name</mat-error>
+                        <input matInput name="name" [(ngModel)]='name' #nameerr="ngModel" type="text" required
+                            minlength=3 placeholder="eg:- John Doe">
+                        <mat-error *ngIf="nameerr.invalid">Enter a valid name</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="formfield">
                         <mat-label>Email</mat-label>
-                        <input matInput name="email" type="email" required ngModel #email="ngModel"
+                        <input matInput name="email" type="email" required [(ngModel)]='email' #emailerr="ngModel"
                             placeholder="e.g:- johndoe@gmail.com" required>
-                        <mat-error *ngIf="email.invalid">Please Enter a valid email</mat-error>
+                        <mat-error *ngIf="emailerr.invalid">Please Enter a valid email</mat-error>
                     </mat-form-field>
                     <br>
-                    <mat-form-field appearance="outline" class="formfield">
+                    <mat-form-field appearance="outline" class="formfield" *ngIf="mode === 'create'">
                         <mat-label>Password</mat-label>
-                        <input type="password" name="password" ngModel #password="ngModel" required matInput>
+                        <input type="password" name="password" [disabled]='disabeled' ngModel #password="ngModel"
+                            required matInput>
                         <mat-error *ngIf="password.invalid">Please enter a valid password</mat-error>
                     </mat-form-field>
+                    <mat-form-field appearance="outline" class="formfield" *ngIf="mode === 'edit'">
+                        <mat-label>Password</mat-label>
+                        <input type="password" [disabled]="true" matInput>
 
-                    <button class="loginbutton" mat-raised-button type="submit">SignUp</button>
+                    </mat-form-field>
+                    <mat-form-field appearance ='fill' class="formfield">
+                        <mat-label>Select Secret Question</mat-label>
+                        <mat-select [formControl] = "question" required>
+                            <mat-option *ngFor="let que of questions" [value]="que">
+                                {{que}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="question.hasError('required')">Please choose an animal</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="formfield">
+                        <mat-label>Your Answer</mat-label>
+                        <input type="text" minlength="3" name="quest" required ngModel #quest="ngModel" matInput>
+                        <mat-error *ngIf="quest.invalid">Please answer the question</mat-error>
+                    </mat-form-field>
+
+                    <button class="loginbutton" mat-raised-button type="submit"
+                        *ngIf="mode === 'create'">SignUp</button>
+                    <button class="loginbutton" mat-raised-button type="submit" *ngIf="mode === 'edit'">Save
+                        Changes</button>
                 </form>
-                <hr>
-                <p class="h6">Already a User ?</p>
-                <button mat-raised-button routerLink="/">Login</button>
+                <div *ngIf="mode === 'create'">
+                    <hr>
+                    <p class="h6">Already a User ?</p>
+                    <button mat-raised-button routerLink="/">Login</button>
+                </div>
+
             </mat-card>
         </div>
     </div>
