@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit {
           this.name = res.name;
         });
       }else if(paramMap.has('user')){
-        this.mode = 'resetpass';
+        this.mode = 'reset';
       }
     });
 
@@ -45,10 +45,31 @@ export class SignupComponent implements OnInit {
       return;
     } else if(this.mode === 'create') {
       this.authService.signup(form.value.name, form.value.email, form.value.password,this.question.value,form.value.quest);
-    }else{
-      this.authService.updateinfo(form.value.name, form.value.email);
+    }else if(this.mode === 'edit'){
+      this.authService.updateinfo(form.value.name, form.value.email,this.question.value,form.value.quest);
+    }else if( this.mode === 'reset'){
+      this.authService.verify(form.value.name,form.value.email,form.value.quest).subscribe((res)=>{
+        
+        if(res.result){
+          this.email=res.result.email
+         this.mode = 'change';
+        }else{
+          alert('incorrect details');
+        }
+      })
     }
 
+  }
+
+  resetpassword(form: NgForm){
+    if(form.invalid){
+      return;
+    }else if(form.value.newpass != form.value.confirm){
+      alert('passwords dont match.Please try again');
+      return;
+    }else{
+      this.authService.changepass(form.value.newpass,this.email);
+    }
   }
 
 }

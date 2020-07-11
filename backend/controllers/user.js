@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
 const User = require("../models/user");
+
+
 /*
 exports.createUser = (req,res,next) =>{
   const user = new User({
@@ -97,6 +98,8 @@ exports.getUser = (req, res, next) => {
       email: result.email
     });
   }).catch((error) => {
+
+
     res.status(500).json({
       name: 'error occured',
       error: error
@@ -104,15 +107,50 @@ exports.getUser = (req, res, next) => {
   });
 }
 exports.updateUser = (req, res, next) => {
-  User.updateOne({_id: req.params.userId},{name: req.body.name,email: req.body.email}).then((result)=>{
+  User.updateOne({ _id: req.params.userId }, {
+    name: req.body.name, email: req.body.email,
+    question: req.body.question, answer: req.body.answer
+  }).then((result) => {
     res.status(200).json({
       message: 'updated',
       result: result.nModified
     });
-  }).catch((error)=>{
+  }).catch((error) => {
     res.status(500).json({
       message: 'error occured',
       result: error
     });
+  });
+}
+
+exports.verify = (req,res,next) =>{
+    User.findOne({name: req.params.name,email: req.params.email,answer: req.params.secret}).then((result)=>{
+      res.status(200).json({
+        result: result
+      });
+    }).catch((error)=>{
+      res.status()
+    })
+}
+
+exports.changepass = (req,res,next) =>{
+  bcrypt.hash(req.body.a,10).then((hash)=>{
+    const hsh = hash;
+    User.updateOne({email: req.body.email},{password: hsh}).then((result)=>{
+      res.status(200).json({
+        result: result.nModified
+      });
+    }).catch((result)=>{
+     
+      res.status(500).json({
+        message: 'error',
+        result: result
+      });
+    });
+  }).catch((error)=>{
+    
+      res.status(500).json({
+        result: error
+      });
   });
 }

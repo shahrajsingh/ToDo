@@ -14,8 +14,8 @@ router.get("/md/:UserId", checkAuth, TaskController.getmydaytasks);
 
 router.get("/ctask/:UserId", checkAuth, TaskController.getCompletedTask);
 
-
 router.get("/search/:query/:user", checkAuth, TaskController.searchTask);
+
 
 router.put("/completetask/:UserId", checkAuth, TaskController.completeTask);
 

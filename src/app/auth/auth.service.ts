@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthData } from './auth-data.model';
+
 const BACKEND_URL = environment.apiUrl + "/users/";
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class AuthService {
   }
 
   getuserdata(): Observable<{ name: string, email: string }> {
-    return this.http.get<{ name: string, email: string }>(BACKEND_URL + this.userId);
+    return this.http.get<{ name: string, email: string }>(BACKEND_URL+"getuser/" + this.userId);
   }
   autoAuthUser() {
 
@@ -56,11 +57,11 @@ export class AuthService {
   }
 
   signup(name: string, email: string, pass: string, ques: string, ans: string) {
-    console.log(ques,ans);
+  
     const authData = { name: name, email: email, password: pass,question: ques,answer: ans };
     this.http.post<{ message: string }>(BACKEND_URL + "", authData).subscribe(
       (res) => {
-        console.log(res);
+       
         this.router.navigate(["/"]);
       },
       error => {
@@ -99,10 +100,12 @@ export class AuthService {
       );
   }
 
-  updateinfo(name: string, email: string) {
+  updateinfo(name: string, email: string, ques: string, ans: string) {
     const body = {
       name: name,
-      email: email
+      email: email,
+      question: ques,
+      answer: ans
     }
     this.http.put<{ message: string, result: number }>(BACKEND_URL + this.userId, body).subscribe((res) => {
       if (res.result != 0) {
@@ -114,8 +117,28 @@ export class AuthService {
       }
     });
   }
+  verify(name:string,email: string,secret: string):Observable<{result}>{
+    return this.http.get<{result}>(BACKEND_URL+name+'/'+email+'/'+secret);
+  }
 
+  changepass(a:string,email:string){
+    const body={
+      a: a,
+      email: email
+    }
+    this.http.put<{result}>(BACKEND_URL,body).subscribe((res)=>{
   
+      if(res.result > 0){
+        alert('password change successful');
+        this.router.navigate(['']);
+      }else if(res.result == 0){
+        alert('old password cannot be your new password');
+      }else{
+        alert('error occured');
+      }
+    });
+  }
+
   logout() {
     this.token = null;
     this.isAuthenticated = false;
