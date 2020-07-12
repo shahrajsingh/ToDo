@@ -9,6 +9,8 @@
                 <div class="heading">
                     To Do
                 </div>
+                
+                
                 <p class="h2">Login</p>
                 <form name="loginform" #loginform="ngForm" (submit)="login(loginform)" class="form">
 
@@ -26,6 +28,11 @@
                     </mat-form-field>
 
                     <button class="loginbutton" mat-raised-button type="submit">Login</button>
+                    
+                    <p style="font-size: 18px;width: 100%;text-align: center;">or</p>
+                    <div>
+                        <button  mat-raised-button color="accent"(click)="guest()">Continue as Guest</button>
+                    </div>
 
                 </form>
 

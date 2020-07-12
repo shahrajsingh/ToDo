@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TaskService } from 'src/app/task/task.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   isLoading: Boolean;
   temp = 'changepass';
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private taskservice: TaskService) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -36,6 +37,12 @@ export class LoginComponent implements OnInit {
       }
 
     }
+  }
+  guest() {
+    this.taskservice.setlogin(false);
+    alert('only task add and complete functionality is provided.All data will be lost on window refresh!' +
+      'please signup for proper experience');
+    this.router.navigate(['/guest']);
   }
 
 }
